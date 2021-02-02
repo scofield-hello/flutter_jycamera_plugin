@@ -5,12 +5,9 @@ import android.graphics.Bitmap
 
 import android.os.Handler
 import android.util.Log
-import android.view.Gravity
 import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.LinearLayout
 import com.camera.CameraConstant
 import com.camera.JYCamera
 import com.camera.entity.CameraResolution
@@ -162,7 +159,7 @@ class JyCameraView(private val context: Context, messenger: BinaryMessenger, id:
                     mCamera.takePicture(savePath)
                 }
                 val outputStream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                 val bitmapData = outputStream.toByteArray()
                 result.success(bitmapData)
             }

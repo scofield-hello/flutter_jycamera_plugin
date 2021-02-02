@@ -102,19 +102,29 @@ class JyCameraViewController {
   void _onEvent(dynamic event) {
     switch (event['event']) {
       case JyCameraEventType.EVENT_CAMERA_OPENED:
-        _onCameraOpened.add(null);
+        if(!_onCameraOpened.isClosed){
+          _onCameraOpened.add(null);
+        }
         break;
       case JyCameraEventType.EVENT_PREVIEW:
-        _onPreview.add(PreviewFrameResult(event['yuvData'], event['width'], event['height']));
+        if(!_onPreview.isClosed){
+          _onPreview.add(PreviewFrameResult(event['yuvData'], event['width'], event['height']));
+        }
         break;
       case JyCameraEventType.EVENT_PREVIEW_STOP:
-        _onPreviewStop.add(null);
+        if(!_onPreviewStop.isClosed){
+          _onPreviewStop.add(null);
+        }
         break;
       case JyCameraEventType.EVENT_CAMERA_CLOSED:
-        _onCameraClosed.add(null);
+        if(!_onCameraClosed.isClosed){
+          _onCameraClosed.add(null);
+        }
         break;
       case JyCameraEventType.EVENT_PHOTO_TOKEN:
-        _onPhotoToken.add(PhotoResult(event['imageData'], event['code']));
+        if(!_onPhotoToken.isClosed){
+          _onPhotoToken.add(PhotoResult(event['imageData'], event['code']));
+        }
         break;
       default:
         break;
@@ -250,10 +260,10 @@ class JyCameraViewController {
   }
 
   void dispose() {
-    _onCameraClosed.close();
     _onCameraOpened.close();
+    _onPhotoToken.close();
     _onPreview.close();
     _onPreviewStop.close();
-    _onPhotoToken.close();
+    _onCameraClosed.close();
   }
 }
