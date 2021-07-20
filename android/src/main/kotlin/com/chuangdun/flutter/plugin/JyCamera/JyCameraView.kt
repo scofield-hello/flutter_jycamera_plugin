@@ -49,7 +49,9 @@ class JyCameraView(private val context: Context, messenger: BinaryMessenger, id:
         val previewHeight = createParams["previewHeight"] as Int
         val pictureWidth = createParams["pictureWidth"] as Int
         val pictureHeight = createParams["pictureHeight"] as Int
-        textureView.layoutParams = ViewGroup.LayoutParams(width, height)
+        textureView.layoutParams = ViewGroup.LayoutParams(
+            dp2px(context,width.toFloat()),
+            dp2px(context,height.toFloat()))
         methodChannel.setMethodCallHandler(this)
         eventChannel.setStreamHandler(this)
         mCamera = initCamera(previewWidth, previewHeight, pictureWidth, pictureHeight, mRotate)
@@ -228,5 +230,10 @@ class JyCameraView(private val context: Context, messenger: BinaryMessenger, id:
 
     override fun onCancel(arguments: Any?) {
         this.eventSink = null
+    }
+
+    private fun dp2px(context: Context, dp: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dp * scale + 0.5f).toInt()
     }
 }
